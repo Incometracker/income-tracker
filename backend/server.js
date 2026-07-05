@@ -34,8 +34,10 @@ if (process.env.NODE_ENV === 'production') {
 // CORS - Allow frontend origins
 const allowedOrigins = [
   'http://localhost:3000',
+  'http://localhost:3001',
   'https://aaqhilabanu2010-png.github.io',
-  'https://income-tracker-osvg.onrender.com'  // ADD THIS
+  'https://incometracker.github.io',
+  'https://income-tracker-osvg.onrender.com'
 ];
 
 app.use(cors({
