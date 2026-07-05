@@ -1,7 +1,16 @@
 [build]
+  command = "npm run build"
   publish = "build"
+  environment = { CI = "true" }
+
+[build.environment]
+  CI = "true"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Force these settings to override UI settings
+[context.production.build]
+  publish = "build"
