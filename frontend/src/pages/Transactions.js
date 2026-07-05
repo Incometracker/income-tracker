@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import API_URL from '../config/api';
@@ -9,11 +9,7 @@ const Transactions = () => {
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('all');
 
-    useEffect(() => {
-        fetchTransactions();
-    }, [filter]);
-
-    const fetchTransactions = async () => {
+    const fetchTransactions = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
             let url = `${API_URL}/transactions`;
@@ -31,7 +27,11 @@ const Transactions = () => {
             console.error('Error fetching transactions:', error);
             setLoading(false);
         }
-    };
+    }, [filter]);
+
+    useEffect(() => {
+        fetchTransactions();
+    }, [fetchTransactions]);
 
     const handleDelete = async (id, e) => {
         e.stopPropagation();

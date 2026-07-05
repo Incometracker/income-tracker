@@ -12,10 +12,10 @@ export const CustomerProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const getHeaders = () => ({
+  const getHeaders = useCallback(() => ({
     Authorization: `Bearer ${token}`,
     'Content-Type': 'application/json'
-  });
+  }), [token]);
 
   const fetchCustomers = useCallback(async (search = '') => {
     setLoading(true);
@@ -31,7 +31,7 @@ export const CustomerProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, [getHeaders]);
 
   const fetchCustomerDetail = useCallback(async (customerId) => {
     setLoading(true);
@@ -48,7 +48,7 @@ export const CustomerProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, [getHeaders]);
 
   const createCustomer = async (customerData) => {
     try {

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import API_URL from '../config/api';
 
@@ -9,15 +9,14 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [token, setToken] = useState(localStorage.getItem('token'));
 
-    useEffect(() => {
-        if (token) {
-            fetchUser(token);
-        } else {
-            setLoading(false);
-        }
-    }, [token]);
+    const logout = useCallback(() => {
+        localStorage.removeItem('token');
+        setToken(null);
+        setUser(null);
+        window.location.href = '/income-tracker/';
+    }, []);
 
-    const fetchUser = async (authToken) => {
+    const fetchUser = useCallback(async (authToken) => {
         try {
             const response = await axios.get(`${API_URL}/auth/me`, {
                 headers: { Authorization: `Bearer ${authToken}` }
@@ -28,18 +27,19 @@ export const AuthProvider = ({ children }) => {
             console.error('Error fetching user:', error);
             logout();
         }
-    };
+    }, [logout]);
+
+    useEffect(() => {
+        if (token) {
+            fetchUser(token);
+        } else {
+            setLoading(false);
+        }
+    }, [token, fetchUser]);
 
     const login = (newToken) => {
         localStorage.setItem('token', newToken);
         setToken(newToken);
-    };
-
-    const logout = () => {
-    localStorage.removeItem('token');
-    setToken(null);
-    setUser(null);
-    window.location.href = '/income-tracker/';
     };
 
     return (

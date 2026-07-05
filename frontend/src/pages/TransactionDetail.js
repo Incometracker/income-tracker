@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import API_URL from '../config/api';
@@ -9,11 +9,7 @@ const TransactionDetail = () => {
     const [transaction, setTransaction] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetchTransaction();
-    }, [id]);
-
-    const fetchTransaction = async () => {
+    const fetchTransaction = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get(`${API_URL}/transactions/${id}`, {
@@ -25,7 +21,11 @@ const TransactionDetail = () => {
             console.error('Error fetching transaction:', error);
             setLoading(false);
         }
-    };
+    }, [id]);
+
+    useEffect(() => {
+        fetchTransaction();
+    }, [fetchTransaction]);
 
     const handleDelete = async () => {
         if (!window.confirm('Are you sure you want to delete this transaction?')) return;
