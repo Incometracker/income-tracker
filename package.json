@@ -1,0 +1,12 @@
+{
+  "name": "income-tracker-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "npm --prefix backend install && npm --prefix backend start",
+    "dev:backend": "npm --prefix backend run dev"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
