@@ -16,8 +16,12 @@ dotenv.config();
 // Connect to database
 connectDB();
 
+const hasGoogleOAuth = Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
+
 // Passport config
-require('./config/passport');
+if (hasGoogleOAuth) {
+  require('./config/passport');
+}
 
 const app = express();
 
@@ -64,8 +68,10 @@ app.use(session({
 
 // Middleware
 app.use(express.json());
-app.use(passport.initialize());
-app.use(passport.session());
+if (hasGoogleOAuth) {
+  app.use(passport.initialize());
+  app.use(passport.session());
+}
 
 // Routes
 app.use('/auth', authRoutes);
