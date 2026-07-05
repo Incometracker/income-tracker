@@ -35,7 +35,7 @@ const Login = () => {
         const urlToken = urlParams.get('token');
         if (urlToken) {
             localStorage.setItem('token', urlToken);
-            window.history.replaceState({}, document.title, '/creditdebit-frontend/dashboard');
+            window.history.replaceState({}, document.title, '/income-tracker/dashboard');
             window.location.reload();
         }
 
@@ -62,7 +62,7 @@ const Login = () => {
                 // Check if we got the token
                 const token = localStorage.getItem('token');
                 if (token) {
-                    window.location.href = '/creditdebit-frontend/dashboard';
+                    window.location.href = '/income-tracker/dashboard';
                 }
             }
         }, 500);
@@ -97,7 +97,7 @@ const Login = () => {
                     transition={{ delay: 0.2 }}
                 >
                     <img 
-                        src="/creditdebit-frontend/logo192.png" 
+                        src="/income-tracker/logo192.png" 
                         alt="Income Tracker Logo"
                         style={{
                             width: '100px',

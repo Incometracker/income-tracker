@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('token');
     setToken(null);
     setUser(null);
-    window.location.href = '/creditdebit-frontend/';  // ✅ Match basename
+    window.location.href = '/income-tracker/';
     };
 
     return (
